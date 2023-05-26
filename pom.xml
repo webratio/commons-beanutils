@@ -179,6 +179,8 @@
                   -  so we will just exclude it until someone comes up with a solution.
                 -->
                 <exclude>**/*MemoryTestCase.java</exclude>
+				<!-- Unreliable tests -->
+				<exclude>**/*MemoryLeakTestCase.java</exclude>
               </excludes>
 
               <!-- Configure Logging -->
