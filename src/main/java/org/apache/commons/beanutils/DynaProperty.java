@@ -269,15 +269,14 @@ public class DynaProperty implements Serializable {
      * This method provides a workaround.
      */
     private void writeObject(ObjectOutputStream out) throws IOException {
-        
+        // write out default
+		out.defaultWriteObject();
+		
+		// write custom values
         writeAnyClass(this.type,out);
-        
         if (isMapped() || isIndexed()) {
             writeAnyClass(this.contentType,out);
         }
-        
-        // write out other values
-        out.defaultWriteObject();
     }
 
     /**
@@ -324,15 +323,14 @@ public class DynaProperty implements Serializable {
      * @throws StreamCorruptedException when the stream data values are outside expected range 
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        
+        // read default values
+		in.defaultReadObject();
+		
+		// read custom values
         this.type = readAnyClass(in);
-        
         if (isMapped() || isIndexed()) {
             this.contentType = readAnyClass(in);
         }
-        
-        // read other values
-        in.defaultReadObject();
     }
     
 

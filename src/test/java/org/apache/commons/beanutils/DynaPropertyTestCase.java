@@ -20,6 +20,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 
 /**
@@ -106,6 +111,22 @@ public class DynaPropertyTestCase extends TestCase {
         assertFalse(testPropertyWithName.equals(testPropertyWithNameAndType));
         assertFalse(testPropertyWithNameAndType.equals(testPropertyWithNameAndTypeAndContentType));
         assertFalse(testPropertyWithName.equals(null));
+    }
+
+    /**
+     * Tests basic serialization and deserialization mechanism.
+     */
+    public void testSerialization() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(buffer);
+        oos.writeObject(testPropertyWithName);
+        oos.flush();
+        oos.close();
+
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buffer.toByteArray()));
+        Object obj = ois.readObject();
+
+        assertTrue(obj.equals(testPropertyWithName));
     }
 
 }
